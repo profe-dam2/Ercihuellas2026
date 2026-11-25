@@ -1,0 +1,60 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:Ercihuellas.ViewModels"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="Ercihuellas.Views.MainWindow"
+        x:DataType="vm:MainViewModel"
+        Icon="/Assets/avalonia-logo.ico"
+        Title="Ercihuellas">
+
+    <Design.DataContext>
+        <!-- This only sets the DataContext for the previewer in an IDE,
+             to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
+        <vm:MainViewModel />
+    </Design.DataContext>
+
+    <Grid ColumnDefinitions="400,*">
+        <TabControl>
+            <TabItem Header="ANIMALES" FontSize="12" >
+                <StackPanel >
+                    <TextBlock Margin="10" Text="Realiza las consultas sobre animales"
+                               HorizontalAlignment="Center"/>
+                    <Button Content="CONSULTAR TODOS" 
+                            Command="{Binding ConsularInformeTodosCommand}"
+                            Margin="10" HorizontalAlignment="Center"/>
+                    
+                    <Separator Width="200" Margin="10"/>
+                    
+                    <TextBlock Margin="10" HorizontalAlignment="Center"
+                               Text="Selecciona una especie"/>
+                    <ComboBox Name="Especies" SelectedIndex="0" Margin="10" HorizontalAlignment="Center">
+                        <ComboBoxItem>Perro</ComboBoxItem>
+                        <ComboBoxItem>Gato</ComboBoxItem>
+                    </ComboBox>
+                    <Button HorizontalAlignment="Center"
+                            Margin="10"
+                            Content="CONSULTAR"
+                            Command="{Binding ConsultarEspeciesCommand}"
+                            CommandParameter="{Binding ElementName=Especies, 
+                            Path=Text}"
+                            />
+                    <Separator Width="200" Margin="10"/>
+                </StackPanel>
+                
+            </TabItem>
+            <TabItem Header="ADOPCIONES" FontSize="12">
+                
+            </TabItem>
+            <TabItem Header="VOLUNTARIOS" FontSize="12">
+                
+            </TabItem>
+        </TabControl>
+        <NativeWebView Grid.Column="1" 
+                       VerticalAlignment="Stretch"
+                       HorizontalAlignment="Stretch"
+                       Source="{Binding Url}"/>
+    </Grid>
+
+</Window>
