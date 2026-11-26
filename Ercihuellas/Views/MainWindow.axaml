@@ -8,6 +8,11 @@
         x:DataType="vm:MainViewModel"
         Icon="/Assets/avalonia-logo.ico"
         Title="Ercihuellas">
+    <Interaction.Behaviors>
+        <EventTriggerBehavior EventName="Loaded">
+            <InvokeCommandAction Command="{Binding ObtenerRazasCommand}"/>
+        </EventTriggerBehavior>
+    </Interaction.Behaviors>
 
     <Design.DataContext>
         <!-- This only sets the DataContext for the previewer in an IDE,
@@ -18,7 +23,8 @@
     <Grid ColumnDefinitions="400,*">
         <TabControl>
             <TabItem Header="ANIMALES" FontSize="12" >
-                <StackPanel >
+                <ScrollViewer>
+                    <StackPanel >
                     <TextBlock Margin="10" Text="Realiza las consultas sobre animales"
                                HorizontalAlignment="Center"/>
                     <Button Content="CONSULTAR TODOS" 
@@ -41,7 +47,33 @@
                             Path=Text}"
                             />
                     <Separator Width="200" Margin="10"/>
+                    <TextBlock Margin="10" HorizontalAlignment="Center"
+                               Text="Selecciona una raza"/>
+                    <ComboBox SelectedIndex="0" Name="ComboRazas"
+                              Margin="10" 
+                              HorizontalAlignment="Center" 
+                              ItemsSource="{Binding ListaRazas}"/>
+                    <Button HorizontalAlignment="Center"
+                            Margin="10"
+                            Content="CONSULTAR"
+                            Command="{Binding ConsultarRazasCommand}"
+                            CommandParameter="{Binding ElementName=ComboRazas, 
+                            Path=Text}"
+                    />
+                    <Separator Width="200" Margin="10"/>
+                    <CalendarDatePicker
+                        Width="240"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center" />
+                    
+                    <CalendarDatePicker
+                        Width="240"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center" />
+                   
                 </StackPanel>
+                </ScrollViewer>
+                
                 
             </TabItem>
             <TabItem Header="ADOPCIONES" FontSize="12">
@@ -51,10 +83,21 @@
                 
             </TabItem>
         </TabControl>
-        <NativeWebView Grid.Column="1" 
+        
+        <ProgressBar x:Name="BarraCarga" Grid.Column="1" 
+                     HorizontalAlignment="Center" 
+                     VerticalAlignment="Center" 
+                     IsIndeterminate="True" 
+                     Height="20" />
+        <NativeWebView x:Name="NavegadorWeb" Grid.Column="1" 
                        VerticalAlignment="Stretch"
-                       HorizontalAlignment="Stretch"
+                       HorizontalAlignment="Stretch" 
+                       NavigationCompleted="Navegacion_completada"
+                       NavigationStarted="Navegacion_iniciada"
                        Source="{Binding Url}"/>
+        <Image Grid.Column="1" x:Name="ImagenInicio" 
+               Source="avares://Ercihuellas/Assets/avalonia-logo.ico"
+               Stretch="UniformToFill"/>
     </Grid>
 
 </Window>
